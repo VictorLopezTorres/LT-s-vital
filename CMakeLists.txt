@@ -4,8 +4,10 @@ project(vital VERSION 1.0.6)
 
 # Dependencies
 find_package(Freetype REQUIRED)
-find_package(X11 REQUIRED)
-find_package(ALSA REQUIRED)
+if(UNIX AND NOT APPLE)
+    find_package(X11 REQUIRED)
+    find_package(ALSA REQUIRED)
+endif()
 find_package(CURL REQUIRED)
 find_package(OpenGL REQUIRED)
 
@@ -74,29 +76,39 @@ target_sources(vital PRIVATE
 # Link system libraries
 target_link_libraries(vital PRIVATE
     Freetype::Freetype
-    X11::X11
-    ALSA::ALSA
     CURL::libcurl
     OpenGL::GL
-    dl
-    pthread
-    rt
 )
+
+if(UNIX AND NOT APPLE)
+    target_link_libraries(vital PRIVATE
+        X11::X11
+        ALSA::ALSA
+        dl
+        pthread
+        rt
+    )
+endif()
 
 # Compile definitions
 target_compile_definitions(vital PRIVATE
     JUCE_OPENGL3=1
     REQUIRE_AUTH=1
-    JUCE_JACK_CLIENT_NAME="Vital"
-    JUCE_ALSA_MIDI_INPUT_NAME="Vital"
-    JUCE_ALSA_MIDI_OUTPUT_NAME="Vital"
-    JUCE_USE_XRANDR=0
     JUCE_DSP_USE_SHARED_FFTW=1
     JUCE_WEB_BROWSER=0
     JUCE_USE_CURL=1
-    LINUX=1
-    JUCE_LINUX=1
 )
+
+if(UNIX AND NOT APPLE)
+    target_compile_definitions(vital PRIVATE
+        JUCE_JACK_CLIENT_NAME="Vital"
+        JUCE_ALSA_MIDI_INPUT_NAME="Vital"
+        JUCE_ALSA_MIDI_OUTPUT_NAME="Vital"
+        JUCE_USE_XRANDR=0
+        LINUX=1
+        JUCE_LINUX=1
+    )
+endif()
 
 # Enable C++14
 set_property(TARGET vital PROPERTY CXX_STANDARD 14)
@@ -165,27 +177,37 @@ target_sources(vital_tests PRIVATE
 
 target_link_libraries(vital_tests PRIVATE
     Freetype::Freetype
-    X11::X11
-    ALSA::ALSA
     CURL::libcurl
     OpenGL::GL
-    dl
-    pthread
-    rt
 )
+
+if(UNIX AND NOT APPLE)
+    target_link_libraries(vital_tests PRIVATE
+        X11::X11
+        ALSA::ALSA
+        dl
+        pthread
+        rt
+    )
+endif()
 
 target_compile_definitions(vital_tests PRIVATE
     JUCE_OPENGL3=1
     REQUIRE_AUTH=1
-    JUCE_JACK_CLIENT_NAME="Vital"
-    JUCE_ALSA_MIDI_INPUT_NAME="Vital"
-    JUCE_ALSA_MIDI_OUTPUT_NAME="Vital"
-    JUCE_USE_XRANDR=0
     JUCE_DSP_USE_SHARED_FFTW=1
     JUCE_WEB_BROWSER=0
     JUCE_USE_CURL=1
-    LINUX=1
-    JUCE_LINUX=1
 )
+
+if(UNIX AND NOT APPLE)
+    target_compile_definitions(vital_tests PRIVATE
+        JUCE_JACK_CLIENT_NAME="Vital"
+        JUCE_ALSA_MIDI_INPUT_NAME="Vital"
+        JUCE_ALSA_MIDI_OUTPUT_NAME="Vital"
+        JUCE_USE_XRANDR=0
+        LINUX=1
+        JUCE_LINUX=1
+    )
+endif()
 
 set_property(TARGET vital_tests PROPERTY CXX_STANDARD 14)

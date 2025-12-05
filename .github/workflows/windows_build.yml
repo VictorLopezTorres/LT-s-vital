@@ -13,8 +13,11 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Install Dependencies
+      run: vcpkg install freetype:x64-windows curl:x64-windows
+
     - name: Configure CMake
-      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
 
     - name: Build
       run: cmake --build build --config Release

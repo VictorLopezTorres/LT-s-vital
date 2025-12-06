@@ -15,7 +15,7 @@ find_package(CURL REQUIRED)
 find_package(OpenGL REQUIRED)
 
 # Define the standalone application
-add_executable(vital)
+add_executable(vital WIN32)
 
 # Include directories
 target_include_directories(vital PRIVATE

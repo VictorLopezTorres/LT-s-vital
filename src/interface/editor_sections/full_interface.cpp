@@ -448,17 +448,21 @@ void FullInterface::resized() {
   int audio_width = section_one_width + section_two_width + padding;
   int modulation_width = width - audio_width - extra_mod_width - 4 * voice_padding;
 
-  header_->setTabOffset(extra_mod_width + 2 * voice_padding);
+  int modulation_x = main_x;
+  int audio_x = modulation_x + modulation_width + voice_padding;
+
+  header_->setTabOffset(audio_x);
   header_->setBounds(left, top, width, top_height);
-  Rectangle<int> main_bounds(main_x, top + top_height, audio_width, voice_height);
+
+  int modulation_height = voice_height - knob_section_height - padding;
+  modulation_interface_->setBounds(modulation_x, top + top_height, modulation_width, modulation_height);
+
+  Rectangle<int> main_bounds(audio_x, top + top_height, audio_width, voice_height);
 
   if (synthesis_interface_)
     synthesis_interface_->setBounds(main_bounds);
   effects_interface_->setBounds(main_bounds.withRight(main_bounds.getRight() + voice_padding));
   modulation_matrix_->setBounds(main_bounds);
-  int modulation_height = voice_height - knob_section_height - padding;
-  modulation_interface_->setBounds(main_bounds.getRight() + voice_padding,
-                                   main_bounds.getY(), modulation_width, modulation_height);
 
   int voice_y = top + height - knob_section_height - keyboard_section_height;
 
@@ -477,7 +481,7 @@ void FullInterface::resized() {
 
   int keyboard_height = keyboard_section_height - voice_padding - padding;
   int keyboard_x = extra_mod_section_->getRight() + voice_padding;
-  int keyboard_width = modulation_interface_->getRight() - keyboard_x;
+  int keyboard_width = main_bounds.getRight() - keyboard_x;
   keyboard_interface_->setBounds(keyboard_x, top + height - keyboard_height - padding, keyboard_width, keyboard_height);
 
   about_section_->setBounds(bounds);

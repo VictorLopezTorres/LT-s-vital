@@ -509,6 +509,9 @@ void FullInterface::resized() {
   }
   master_controls_interface_->setBounds(main_bounds);
 
+  if (header_)
+    header_->toFront(true);
+
   if (full_screen_section_) {
     Rectangle<float> relative = synthesis_interface_->getOscillatorSection(0)->getWavetableRelativeBounds();
     int total_width = getWidth() / relative.getWidth();

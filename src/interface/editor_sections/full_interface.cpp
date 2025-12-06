@@ -453,6 +453,7 @@ void FullInterface::resized() {
 
   header_->setTabOffset(audio_x);
   header_->setBounds(left, top, width, top_height);
+  header_->toFront(true);
 
   int modulation_height = voice_height - knob_section_height - padding;
   modulation_interface_->setBounds(modulation_x, top + top_height, modulation_width, modulation_height);

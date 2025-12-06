@@ -93,7 +93,7 @@ endif()
 # Compile definitions
 target_compile_definitions(vital PRIVATE
     JUCE_OPENGL3=1
-    REQUIRE_AUTH=1
+    NO_AUTH=1
     JUCE_DSP_USE_SHARED_FFTW=1
     JUCE_WEB_BROWSER=0
     JUCE_USE_CURL=1

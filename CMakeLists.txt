@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.15)
 
 project(vital VERSION 1.0.6)
 
+# Globally disable authentication for open-source build
+add_compile_definitions(NO_AUTH=1)
+
 # Dependencies
 find_package(Freetype REQUIRED)
 if(UNIX AND NOT APPLE)
